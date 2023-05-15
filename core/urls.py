@@ -33,6 +33,7 @@ from user.urls import router as user_router
 from warehouse.urls import router as warehouse_router
 from payment.urls import router as payment_router
 from user.views import RegisterAPI, VerifyOTP
+from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 router = DefaultRouter()
 router.extend(client_router)
@@ -59,14 +60,14 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include(router.urls)),
     path('register/', RegisterAPI.as_view()),
     path('verify/', VerifyOTP.as_view()),
+    path('api/', include(router.urls)),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('swagger<format>/', schema_view.without_ui(cache_timeout=0), name='schema-json'),
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),
-    path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     # path('set_base/', set_base, name='set_base'),
 ]
 urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+urlpatterns += staticfiles_urlpatterns()
