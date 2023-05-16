@@ -1,23 +1,44 @@
 from django.shortcuts import render
 from rest_framework.viewsets import ModelViewSet
-from .models import Category, Product
-from .serializers import CategorySerializer, ProductSerializer
-from rest_framework import filters
+from .models import Character, ProductCharacter, ProductMedia, Product, ProductPrice, Country, Manufactory, Category
+from . import serializers
 
 
-class CategoryViewSet(ModelViewSet):
-    queryset = Category.objects.all()
-    serializer_class = CategorySerializer
-    filter_backends = [filters.SearchFilter]
-    search_fields = ['id', 'name']
+class CharactoryViewSet(ModelViewSet):
+    serializer_class = serializers.CharactorySerializers
+    queryset = Character.objects.all()
+
+
+class CountryViewSet(ModelViewSet):
+    serializer_class = serializers.CountrySerializers
+    queryset = Country.objects.all()
+
+
+class ManufactoryViewSet(ModelViewSet):
+    serializer_class = serializers.ManufactorySerializers
+    queryset = Manufactory.objects.all()
 
 
 class ProductViewSet(ModelViewSet):
     queryset = Product.objects.all()
-    serializer_class = ProductSerializer
-    filter_backends = filters.SearchFilter,
-    search_fields = ['name', 'full_name', 'price']
+    serializer_class = serializers.ProductSerializers
 
 
+class ProductMediaViewSet(ModelViewSet):
+    serializer_class = serializers.ProductMediaSerializers
+    queryset = ProductMedia.objects.all()
 
 
+class ProductCharactoryViewSet(ModelViewSet):
+    serializer_class = serializers.ProductCharactorySerializers
+    queryset = ProductCharacter.objects.all()
+
+
+class ProductPriceViewSet(ModelViewSet):
+    serializer_class = serializers.ProductPriceSerializers
+    queryset = ProductPrice.objects.all()
+
+
+class CategoryViewSet(ModelViewSet):
+    serializer_class = serializers.CategorySerializers
+    queryset = Category.objects.all()

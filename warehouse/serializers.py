@@ -8,7 +8,7 @@ class WarehouseParentProductSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Product
-        fields = "name", "full_name", "price", "category"
+        fields = "id", "name", "category"
 
 
 class WarehouseSerializer(serializers.ModelSerializer):
