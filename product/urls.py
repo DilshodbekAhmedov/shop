@@ -3,8 +3,8 @@ from django.urls import path, include
 from . import views
 
 router = SimpleRouter()
-router.register('charactory', views.CharactoryViewSet)
-router.register('productcharactory', views.ProductCharactoryViewSet)
+router.register('character', views.CharacterViewSet)
+router.register('productcharacter', views.ProductCharactoryViewSet)
 router.register('product', views.ProductViewSet)
 router.register('country', views.CountryViewSet)
 router.register('productmedia', views.ProductMediaViewSet)

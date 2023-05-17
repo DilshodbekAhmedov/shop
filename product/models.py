@@ -44,8 +44,8 @@ class Product(models.Model):
     name = models.CharField(max_length=255, verbose_name='Nomi')
     category = models.ForeignKey(Category, on_delete=models.PROTECT,
                                  verbose_name='Kategoriya')
-    manufactory = models.ForeignKey(Manufactory, on_delete=models.PROTECT,
-                                    related_name='manufactory',
+    manufactory = models.ForeignKey('Manufactory', on_delete=models.PROTECT,
+                                    related_name='manufactory_re',
                                     verbose_name='Ishlab chiqqan Korxona', null=True)  # verbose_name
     country = models.ForeignKey('Country', on_delete=models.PROTECT,
                                 verbose_name='Ishlab chiqligan davlat', null=True, blank=True)
@@ -74,8 +74,8 @@ class Character(models.Model):
 
 
 class ProductMedia(models.Model):
-    product = models.ForeignKey('Product', models.PROTECT, verbose_name='Mahsulot', related_name='product_media')
-    media = models.FileField(upload_to='product/media', verbose_name='Video/Rasm')
+    product = models.ForeignKey('Product', on_delete=models.PROTECT, verbose_name='Mahsulot', related_name='product_media')
+    media = models.FileField(upload_to='product/media', verbose_name='Video/Rasm', null=True, blank=False)
     is_active = models.BooleanField(default=True, verbose_name='Holati Aktiv')
 
     class Meta:

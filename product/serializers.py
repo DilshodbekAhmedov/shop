@@ -10,11 +10,11 @@ class CountrySerializers(ModelSerializer):
 
 
 class ManufactorySerializers(ModelSerializer):
-    country = CountrySerializers(read_only=True)
+    country_obj = CountrySerializers(source="country", many=False, read_only=True)
 
     class Meta:
         model = Manufactory
-        fields = '__all__'
+        fields = 'id', 'name', 'description', 'country', 'country_obj'
 
 
 class CategorySerializers(ModelSerializer):
@@ -24,21 +24,20 @@ class CategorySerializers(ModelSerializer):
 
 
 class ProductMediaSerializers(ModelSerializer):
-    product = serializers.StringRelatedField(source='product_media', read_only=True)
 
     class Meta:
         model = ProductMedia
         fields = '__all__'
 
 
-class CharactorySerializers(ModelSerializer):
+class CharacterSerializers(ModelSerializer):
     class Meta:
         model = Character
         fields = '__all__'
 
 
 class ProductCharactorySerializers(ModelSerializer):
-    product = serializers.StringRelatedField(source='product_character', read_only=True)
+    character_obj = CharacterSerializers(source='character', many=False, read_only=True)
 
     class Meta:
         model = ProductCharacter
@@ -46,7 +45,6 @@ class ProductCharactorySerializers(ModelSerializer):
 
 
 class ProductPriceSerializers(ModelSerializer):
-    product = serializers.StringRelatedField(source='product_price', read_only=True)
 
     class Meta:
         model = ProductPrice
@@ -54,15 +52,19 @@ class ProductPriceSerializers(ModelSerializer):
 
 
 class ProductSerializers(ModelSerializer):
-    country = CountrySerializers(read_only=True)
-    category = CategorySerializers(read_only=True)
-    manufactory = ManufactorySerializers(read_only=True)
-    product_media = ProductMediaSerializers(many=True, read_only=True)
-    product_charactory = ProductCharactorySerializers(many=True, read_only=True)
-    product_price = ProductPriceSerializers(many=True, read_only=True)
+    category_obj = CategorySerializers(source='category', many=False, read_only=True)
+    manufactory_obj = ManufactorySerializers(source='manufactory', many=False, read_only=True)
+    country_obj = CountrySerializers(source='country', many=False, read_only=True)
+    product_media_obj = ProductMediaSerializers(source='product_media', many=True, read_only=True)
+    product_character_obj = ProductCharactorySerializers(source='product_character', many=True, read_only=True)
+    product_price_obj = CountrySerializers(source='product_price', many=True, read_only=True)
 
     class Meta:
         model = Product
-        fields = ['id', 'name', 'category', 'manufactory', 'country', 'sale_count', 'view_count', 'product_media',
-                  'product_charactory',
-                  'is_active', 'product_price']
+        fields = 'id', 'name', 'sale_count', 'view_count', 'is_active', 'category', \
+            'manufactory', 'country', 'category_obj', 'manufactory_obj', 'country_obj', \
+            'product_media_obj', 'product_character_obj', 'product_price_obj'
+
+
+
+

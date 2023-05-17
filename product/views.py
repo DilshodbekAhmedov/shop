@@ -4,8 +4,8 @@ from .models import Character, ProductCharacter, ProductMedia, Product, ProductP
 from . import serializers
 
 
-class CharactoryViewSet(ModelViewSet):
-    serializer_class = serializers.CharactorySerializers
+class CharacterViewSet(ModelViewSet):
+    serializer_class = serializers.CharacterSerializers
     queryset = Character.objects.all()
 
 
