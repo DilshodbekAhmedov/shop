@@ -17,10 +17,27 @@ class ManufactorySerializers(ModelSerializer):
         fields = 'id', 'name', 'description', 'country', 'country_obj'
 
 
-class CategorySerializers(ModelSerializer):
+class ChildCategorySerializer(serializers.ModelSerializer):
+
     class Meta:
         model = Category
-        fields = '__all__'
+        fields = "__all__"
+
+
+class ChildProductSerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = Product
+        fields = "__all__"
+
+
+class CategorySerializers(serializers.ModelSerializer):
+    child_categories = ChildCategorySerializer(source='category_set', many=True, read_only=True)
+    products_obj = ChildProductSerializer(source='product_set', many=True, read_only=True)
+
+    class Meta:
+        model = Category
+        fields = "id", "parent", "name", "child_categories", "products_obj",
 
 
 class ProductMediaSerializers(ModelSerializer):

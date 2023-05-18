@@ -42,7 +42,7 @@ class Category(models.Model):
 
 class Product(models.Model):
     name = models.CharField(max_length=255, verbose_name='Nomi')
-    category = models.ForeignKey(Category, on_delete=models.PROTECT,
+    category = models.ForeignKey("Category", on_delete=models.PROTECT,
                                  verbose_name='Kategoriya')
     manufactory = models.ForeignKey('Manufactory', on_delete=models.PROTECT,
                                     related_name='manufactory_re',
