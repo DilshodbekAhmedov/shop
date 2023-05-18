@@ -37,7 +37,7 @@ class CategorySerializers(serializers.ModelSerializer):
 
     class Meta:
         model = Category
-        fields = "id", "parent", "name", "child_categories", "products_obj",
+        fields = "id", "parent", "name", "slug", "child_categories", "products_obj",
 
 
 class ProductMediaSerializers(ModelSerializer):

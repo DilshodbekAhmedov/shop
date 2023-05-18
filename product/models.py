@@ -31,6 +31,7 @@ class Category(models.Model):
     parent = models.ForeignKey('Category',
                                verbose_name="Ota kategoriya", on_delete=models.PROTECT, null=True)
     name = models.CharField(max_length=264, verbose_name='Nomi')
+    slug = models.SlugField(max_length=255)
 
     class Meta:
         verbose_name = 'Categoriya'
