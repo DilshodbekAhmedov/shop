@@ -45,6 +45,5 @@ class CategoryViewSet(ModelViewSet):
 
     def create(self, request, *args, **kwargs):
         request.data['slug'] = "-".join(request.data['name'].lower().split())
-        print(request.data['slug'])
         response = super().create(request, *args, **kwargs)
         return response

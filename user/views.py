@@ -11,9 +11,85 @@ from user.serializers import UserSerializer, PasswordSerializer, CheckUserSerial
 from .emails import send_otp_via_email
 
 
-class RegisterAPI(APIView):
+# class RegisterAPI(APIView):
+#
+#     def post(self, request):
+#         try:
+#             data = request.data
+#             serializer = UserSerializer(data=data)
+#
+#             if serializer.is_valid():
+#                 print("ha")
+#                 serializer.save()
+#                 send_otp_via_email(serializer.data['email'])
+#                 return Response({
+#                     'status': 200,
+#                     'message': 'registration successfully check email',
+#                     'data': serializer.data,
+#                 })
+#
+#             return Response({
+#                 'status': 400,
+#                 'message': 'something went wrong',
+#                 'data': serializer.errors,
+#             })
+#         except Exception as e:
+#             return Response({
+#                 'status': 400,
+#                 'message': 'something went wrong',
+#                 'data': serializer.errors,
+#             })
 
-    def post(self, request):
+
+# class VerifyOTP(APIView):
+#     def post(self, request):
+#         try:
+#             data = request.data
+#             serializer = VerifyAccountSerializer(data=data)
+#             if serializer.is_valid():
+#                 email = serializer.data['email']
+#                 otp = serializer.data['otp']
+#                 user = User.objects.filter(email=email)
+#                 if not user.exists():
+#                     return Response({
+#                         'status': 400,
+#                         'message': 'email does not exist',
+#                         'data': serializer.errors,
+#                     })
+#                 if user[0].otp != otp:
+#                     return Response({
+#                         'status': 400,
+#                         'message': 'otp is wrong',
+#                         'data': 'wrong otp'
+#                     })
+#                 user = user.first()
+#                 user.is_active = True
+#                 user.save()
+#                 return Response({
+#                     'status': 200,
+#                     'message': 'Account verified',
+#                     'data': {}
+#                 })
+#
+#             return Response({
+#                 'status': 400,
+#                 'message': 'something went wrong',
+#                 'data': 'invalid email'
+#             })
+#
+#         except Exception as e:
+#             print(e)
+
+
+class UserViewSet(ModelViewSet):
+    authentication_classes = [BasicAuthentication]
+    permission_classes = [IsAuthenticated, ]
+    queryset = User.objects.all()
+    serializer_class = UserSerializer
+    http_method_names = ['get', 'post', 'put', 'patch', 'head', 'option']
+
+    @action(detail=False, methods=['post'], permission_classes=[])
+    def register(self, request, pk=None):
         try:
             data = request.data
             serializer = UserSerializer(data=data)
@@ -40,9 +116,8 @@ class RegisterAPI(APIView):
                 'data': serializer.errors,
             })
 
-
-class VerifyOTP(APIView):
-    def post(self, request):
+    @action(detail=False, methods=['post'], permission_classes=[])
+    def verify(self, request, pk=None):
         try:
             data = request.data
             serializer = VerifyAccountSerializer(data=data)
@@ -79,14 +154,6 @@ class VerifyOTP(APIView):
 
         except Exception as e:
             print(e)
-
-
-class UserViewSet(ModelViewSet):
-    authentication_classes = [BasicAuthentication]
-    permission_classes = [IsAuthenticated, ]
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
-    http_method_names = ['get', 'post', 'put', 'patch', 'head', 'option']
 
     @action(detail=True, methods=['post'])
     def set_password(self, request, pk=None):

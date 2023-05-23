@@ -32,7 +32,6 @@ from provider.urls import router as provider_router
 from user.urls import router as user_router
 from warehouse.urls import router as warehouse_router
 from payment.urls import router as payment_router
-from user.views import RegisterAPI, VerifyOTP
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
 router = DefaultRouter()
@@ -60,8 +59,8 @@ schema_view = get_schema_view(
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('register/', RegisterAPI.as_view()),
-    path('verify/', VerifyOTP.as_view()),
+    # path('register/', RegisterAPI.as_view()),
+    # path('verify/', VerifyOTP.as_view()),
     path('api/', include(router.urls)),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('swagger<format>/', schema_view.without_ui(cache_timeout=0), name='schema-json'),
