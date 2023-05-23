@@ -97,13 +97,23 @@ REST_FRAMEWORK = {
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+# DATABASES = {
+#     "default": {
+#         "ENGINE": "django.db.backends.sqlite3",
+#         "NAME": "db.sqlite3",
+#     }
+# }
+
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": "db.sqlite3",
+        "ENGINE": "django.db.backends.postgresql",
+        "NAME": "online_shop",
+        "USER": "online_shop_user",
+        "PASSWORD": "990380971@@",
+        "HOST": "127.0.0.1",
+        "PORT": "5432",
     }
 }
-
 
 
 # Password validation

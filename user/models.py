@@ -55,9 +55,10 @@ class MyUserManager(BaseUserManager):
 
 class User(AbstractBaseUser, PermissionsMixin):
     USER_TYPE = (
-        ('director', 'Director'),
+        ('super_admin', 'Super Admin'),
         ('admin', 'Admin'),
-        ('seller', 'Soruvchi')
+        ('seller', 'Soruvchi'),
+        ('client', 'Xaridor')
     )
     first_name = models.CharField(verbose_name='Ism', max_length=255, blank=True)
     last_name = models.CharField(verbose_name='Familiya', max_length=255, blank=True)
@@ -77,7 +78,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     birthday = models.DateField(verbose_name="Tug'ilgan kun",
                                 null=True, blank=True)
     phone = models.CharField(verbose_name='Telefon raqami', max_length=255, null=True, blank=False, validators=[phone_validator,])
-    user_type = models.CharField(verbose_name='Foydalanuvchi turi', max_length=255, choices=USER_TYPE, default='seller')
+    user_type = models.CharField(verbose_name='Foydalanuvchi turi', max_length=255, choices=USER_TYPE, default='client')
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
