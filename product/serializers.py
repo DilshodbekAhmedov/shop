@@ -44,12 +44,15 @@ class CategorySerializers(serializers.ModelSerializer):
         if self.initial_data.get('photo', False):
             validated_data.pop('photo')
         instance = super().create(validated_data)
-        print(photo)
         if photo:
-            p = base64.b64decode(self.initial_data.get('photo', False))
+            format = photo.split('/')[1].split(';')[0]
+            if format == "svg+xml":
+                format = "svg"
+            photo = photo.split(',')[1]
+            p = base64.b64decode(photo)
             img = io.BytesIO()
             img.write(p)
-            instance.photo = File(name=f"photo_{instance.id}.svg", file=img)
+            instance.photo = File(name=f"photo_{instance.id}.{format}", file=img)
         instance.save()
         return instance
 
