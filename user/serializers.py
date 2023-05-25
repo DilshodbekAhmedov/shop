@@ -9,7 +9,7 @@ from rest_framework.validators import UniqueValidator
 
 
 def password_validator(value):
-    if len(value) < 8:
+    if len(value) < 8 and value.is_numeric():
         raise ValidationError("This is bad password")
     else:
         return True
@@ -27,41 +27,6 @@ class PasswordSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ('password',)
-
-
-class RegisterUserSerializer(serializers.Serializer):
-    email = serializers.EmailField(
-        validators=[UniqueValidator(queryset=User.objects.all())]
-    )
-
-    class Meta:
-        model = User
-        fields = ['first_name', 'last_name', 'email', 'password']
-
-    def create(self, validated_data):
-        user = User.objects.create(email=validated_data['email'])
-        user.set_password(validated_data['password'])
-        user.save()
-        return user
-
-    def forget_password(self, instance, validated_data):
-        email = validated_data['email']
-
-        print(email)
-
-
-class CheckUserSerializer(serializers.ModelSerializer):
-    password = serializers.CharField(
-        write_only=True,
-        required=True,
-        validators=(password_validator, ),
-        help_text='Leave empty if no change needed',
-        style={'input_type': 'password', 'placeholder': 'Password'}
-    )
-
-    class Meta:
-        model = User
-        fields = ('username', 'password')
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
@@ -91,7 +56,7 @@ class UserSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = User
-        fields = 'first_name', 'last_name', 'avatar', 'email', 'username', 'is_active', 'birthday', 'phone', \
+        fields = 'first_name', 'last_name', 'avatar', 'email', 'username', 'is_active', 'birthday', \
             'user_type',
 
 

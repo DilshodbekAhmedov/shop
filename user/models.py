@@ -77,7 +77,6 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField(verbose_name='Faol', default=True, )
     birthday = models.DateField(verbose_name="Tug'ilgan kun",
                                 null=True, blank=True)
-    phone = models.CharField(verbose_name='Telefon raqami', max_length=255, null=True, blank=False, validators=[phone_validator,])
     user_type = models.CharField(verbose_name='Foydalanuvchi turi', max_length=255, choices=USER_TYPE, default='client')
 
     USERNAME_FIELD = 'email'

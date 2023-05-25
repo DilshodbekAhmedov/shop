@@ -32,6 +32,8 @@ class Category(models.Model):
                                verbose_name="Ota kategoriya", on_delete=models.PROTECT, null=True)
     name = models.CharField(max_length=264, verbose_name='Nomi')
     slug = models.SlugField(max_length=255)
+    photo = models.FileField(verbose_name="Categoriya rasimi",
+                             upload_to="product/category_images", null=True, blank=True)
 
     class Meta:
         verbose_name = 'Categoriya'
@@ -75,8 +77,9 @@ class Character(models.Model):
 
 
 class ProductMedia(models.Model):
-    product = models.ForeignKey('Product', on_delete=models.PROTECT, verbose_name='Mahsulot', related_name='product_media')
-    media = models.FileField(upload_to='product/media', verbose_name='Video/Rasm', null=True, blank=False)
+    product = models.ForeignKey('Product', on_delete=models.PROTECT,
+                                verbose_name='Mahsulot', related_name='product_media')
+    media = models.FileField(upload_to='product/product_images', verbose_name='Video/Rasm', null=True, blank=False)
     is_active = models.BooleanField(default=True, verbose_name='Holati Aktiv')
 
     class Meta:
@@ -87,7 +90,8 @@ class ProductMedia(models.Model):
 
 
 class ProductCharacter(models.Model):
-    product = models.ForeignKey('Product', on_delete=models.CASCADE, verbose_name='Mahsulot', related_name='product_character')
+    product = models.ForeignKey('Product', on_delete=models.CASCADE,
+                                verbose_name='Mahsulot', related_name='product_character')
     character = models.ForeignKey('Character', on_delete=models.PROTECT, verbose_name='Mahsulot xususiyati')
     value = models.CharField(max_length=255)
 
@@ -99,7 +103,8 @@ class ProductCharacter(models.Model):
 
 
 class ProductPrice(models.Model):
-    product = models.ForeignKey('Product', on_delete=models.CASCADE, verbose_name='Mahsulot', related_name='product_price')
+    product = models.ForeignKey('Product', on_delete=models.CASCADE,
+                                verbose_name='Mahsulot', related_name='product_price')
     unit_type = models.CharField(verbose_name="O'lchov birligi", max_length=255)
     price = models.DecimalField(max_digits=17, decimal_places=2, default=0, verbose_name='Narxi')
     is_active = models.BooleanField(default=True, verbose_name='Holati Aktiv')

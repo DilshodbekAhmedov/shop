@@ -4,81 +4,9 @@ from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.viewsets import ModelViewSet
-from rest_framework.views import APIView
-from .serializers import UserSerializer, RegisterUserSerializer
 from user.models import User
-from user.serializers import UserSerializer, PasswordSerializer, CheckUserSerializer, VerifyAccountSerializer
+from user.serializers import UserSerializer, PasswordSerializer, VerifyAccountSerializer
 from .emails import send_otp_via_email
-
-
-# class RegisterAPI(APIView):
-#
-#     def post(self, request):
-#         try:
-#             data = request.data
-#             serializer = UserSerializer(data=data)
-#
-#             if serializer.is_valid():
-#                 print("ha")
-#                 serializer.save()
-#                 send_otp_via_email(serializer.data['email'])
-#                 return Response({
-#                     'status': 200,
-#                     'message': 'registration successfully check email',
-#                     'data': serializer.data,
-#                 })
-#
-#             return Response({
-#                 'status': 400,
-#                 'message': 'something went wrong',
-#                 'data': serializer.errors,
-#             })
-#         except Exception as e:
-#             return Response({
-#                 'status': 400,
-#                 'message': 'something went wrong',
-#                 'data': serializer.errors,
-#             })
-
-
-# class VerifyOTP(APIView):
-#     def post(self, request):
-#         try:
-#             data = request.data
-#             serializer = VerifyAccountSerializer(data=data)
-#             if serializer.is_valid():
-#                 email = serializer.data['email']
-#                 otp = serializer.data['otp']
-#                 user = User.objects.filter(email=email)
-#                 if not user.exists():
-#                     return Response({
-#                         'status': 400,
-#                         'message': 'email does not exist',
-#                         'data': serializer.errors,
-#                     })
-#                 if user[0].otp != otp:
-#                     return Response({
-#                         'status': 400,
-#                         'message': 'otp is wrong',
-#                         'data': 'wrong otp'
-#                     })
-#                 user = user.first()
-#                 user.is_active = True
-#                 user.save()
-#                 return Response({
-#                     'status': 200,
-#                     'message': 'Account verified',
-#                     'data': {}
-#                 })
-#
-#             return Response({
-#                 'status': 400,
-#                 'message': 'something went wrong',
-#                 'data': 'invalid email'
-#             })
-#
-#         except Exception as e:
-#             print(e)
 
 
 class UserViewSet(ModelViewSet):
