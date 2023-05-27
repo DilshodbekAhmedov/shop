@@ -17,7 +17,7 @@ class ChildWarehouseProductSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = WarehouseProduct
-        fields = "warehouse", "product", "count", "total", "self_price", "product_obj",
+        fields = "product", "count", "total", "self_price", "product_obj",
 
 
 class ChildOrderItemSerializer(serializers.ModelSerializer):

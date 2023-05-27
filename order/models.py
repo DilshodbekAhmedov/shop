@@ -10,7 +10,6 @@ class Order(models.Model):
     )
 
     client = models.ForeignKey("client.Client", verbose_name="Xaridor", on_delete=models.PROTECT)
-    warehouse = models.ForeignKey('warehouse.Warehouse', verbose_name="Baza", on_delete=models.PROTECT, null=True)
     created_at = models.DateTimeField(verbose_name="Yaratilgan vaqti", auto_now_add=True)
     status = models.CharField(verbose_name="Maxsulot Xolati", max_length=255, choices=ORDER_STATUS)
     total = models.DecimalField(verbose_name="Narxi", max_digits=17, decimal_places=2, null=True)

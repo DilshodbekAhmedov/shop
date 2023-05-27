@@ -1,19 +1,13 @@
-import decimal
 from _decimal import Decimal
 from .income_update import add_all_total
-from django.shortcuts import render
-from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.viewsets import ModelViewSet
 from income.models import Income, IncomeItem
-from warehouse.models import Warehouse, WarehouseProduct
 from .serializers import IncomeSerializer, IncomeItemSerializer
-from rest_framework.response import Response
 from rest_framework import status
 from warehouse.models import *
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from django_filters import rest_framework as filters
-from provider.models import Provider
 
 
 class StatusFilter(filters.FilterSet):
@@ -44,7 +38,6 @@ class IncomeViewSet(ModelViewSet):
             provider_obj.save()
             for i in obj_income_items:
                 wp_obj, created = WarehouseProduct.objects.get_or_create(
-                    warehouse=obj_income.warehouse,
                     product=i.product,
                     defaults={
                         'count': i.count,
@@ -69,7 +62,7 @@ class IncomeViewSet(ModelViewSet):
             obj_provider.balance -= obj_income.total
             obj_provider.save()
             for income_item in obj_income_items:
-                wp_obj = WarehouseProduct.objects.get(product=income_item.product, warehouse=obj_income.warehouse)
+                wp_obj = WarehouseProduct.objects.get(product=income_item.product)
                 wp_obj.count -= income_item.count
                 wp_obj.save()
         obj_income.status = 'canceled'
