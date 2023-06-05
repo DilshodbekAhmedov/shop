@@ -29,7 +29,7 @@ class Manufactory(models.Model):
 
 class Category(models.Model):
     parent = models.ForeignKey('Category',
-                               verbose_name="Ota kategoriya", on_delete=models.PROTECT, null=True)
+                               verbose_name="Ota kategoriya", on_delete=models.PROTECT, null=True, blank=True)
     name = models.CharField(max_length=264, verbose_name='Nomi')
     slug = models.SlugField(max_length=255)
     photo = models.FileField(verbose_name="Categoriya rasimi",
@@ -52,9 +52,9 @@ class Product(models.Model):
                                     verbose_name='Ishlab chiqqan Korxona', null=True)  # verbose_name
     country = models.ForeignKey('Country', on_delete=models.PROTECT,
                                 verbose_name='Ishlab chiqligan davlat', null=True, blank=True)
-    sale_count = models.IntegerField(default=0, verbose_name='Sotilganlar soni')
+    sale_count = models.IntegerField(default=0, verbose_name='Sotilganlar soni', null=True, blank=True)
     view_count = models.PositiveBigIntegerField(default=0,
-                                                verbose_name='Ko\'rganlar soni')
+                                                verbose_name='Ko\'rganlar soni', null=True, blank=True)
     is_active = models.BooleanField(default=True,
                                     verbose_name='Holati Aktiv')
 

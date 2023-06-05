@@ -11,11 +11,13 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 import os
 from pathlib import Path
-
+from environs import Env
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+env = Env()
+env.read_env(os.path.join(BASE_DIR, 'env'))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
@@ -65,9 +67,8 @@ MIDDLEWARE = [
 ]
 CORS_ORIGIN_ALLOW_ALL = True
 
-CORS_ORIGIN_ALLOW_ALL = True
-CSRF_TRUSTED_ORIGINS = ['https://*.mrit.uz','https://*.127.0.0.1']
-CSRF_COOKIE_SECURE=False
+CSRF_TRUSTED_ORIGINS = ['https://*.mrit.uz', 'https://*.127.0.0.1']
+CSRF_COOKIE_SECURE = False
 
 ROOT_URLCONF = 'core.urls'
 
@@ -93,7 +94,6 @@ REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',)
 }
 
-
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
@@ -107,14 +107,13 @@ REST_FRAMEWORK = {
 DATABASES = {
     "default": {
         "ENGINE": "django.db.backends.postgresql",
-        "NAME": "online_shop",
-        "USER": "online_shop_user",
-        "PASSWORD": "990380971@@",
+        "NAME": env('DB_NAME'),
+        "USER": env('DB_USER'),
+        "PASSWORD": env('DB_PASSWORD'),
         "HOST": "127.0.0.1",
         "PORT": "5432",
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -135,7 +134,6 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
@@ -162,7 +160,6 @@ CORS_ALLOW_HEADERS = [
     'x-requested-with',
 ]
 
-
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
 
@@ -175,14 +172,12 @@ STATIC_ROOT = '/var/www/SHOP/static'
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
-
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.mail.ru'
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
 EMAIL_PORT = 2525
-EMAIL_HOST_USER = 'test19222@bk.ru'
-EMAIL_HOST_PASSWORD = 'gWDqyZ1gPtabSep1j9bH'
+EMAIL_HOST_USER = env('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')

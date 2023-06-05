@@ -112,7 +112,7 @@ class ProductSerializers(ModelSerializer):
     country_obj = CountrySerializers(source='country', many=False, read_only=True)
     product_media_obj = ProductMediaSerializers(source='product_media', many=True, read_only=True)
     product_character_obj = ProductCharactorySerializers(source='product_character', many=True, read_only=True)
-    product_price_obj = CountrySerializers(source='product_price', many=True, read_only=True)
+    product_price_obj = ProductPriceSerializers(source='product_price', many=True, read_only=True)
 
     class Meta:
         model = Product
