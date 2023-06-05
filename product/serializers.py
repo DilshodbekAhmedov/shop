@@ -99,7 +99,7 @@ class CharacterSerializers(ModelSerializer):
 
 
 class ProductCharactorySerializers(ModelSerializer):
-    character_obj = CharacterSerializers(source='character', many=False, read_only=True)
+    character_obj = CharacterSerializers(source='character', many=False, read_only=True, required=False)
 
     class Meta:
         model = ProductCharacter

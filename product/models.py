@@ -99,7 +99,7 @@ class ProductCharacter(models.Model):
         verbose_name_plural = 'Mahsulot xususiyati'
 
     def __str__(self):
-        return self.product.name
+        return f"{self.product.name} - {self.character} - {self.value}"
 
 
 class ProductPrice(models.Model):
