@@ -12,7 +12,6 @@ django-filter==23.2
 django-resized==1.0.2
 django-utils-six==2.0
 djangorestframework==3.14.0
-djangorestframework-filters==0.11.1
 drf-yasg==1.21.5
 email-normalize==2.0.0
 environs==9.5.0
