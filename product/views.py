@@ -40,8 +40,8 @@ class ProductPriceViewSet(ModelViewSet):
 
 
 class CategoryViewSet(ModelViewSet):
+    queryset = Category.objects.filter(parent=None)
     serializer_class = serializers.CategorySerializers
-    queryset = Category.objects.all()
 
     def create(self, request, *args, **kwargs):
         request.data['slug'] = "-".join(request.data['name'].lower().split())

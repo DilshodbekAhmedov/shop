@@ -4,6 +4,7 @@ from django.core.files import File
 from .models import Country, Manufactory, Category, Product, Character, ProductMedia, ProductCharacter, ProductPrice
 from rest_framework.serializers import ModelSerializer
 from rest_framework import serializers
+from django.db.models import Q
 
 
 class CountrySerializers(ModelSerializer):
@@ -34,8 +35,8 @@ class ChildProductSerializer(serializers.ModelSerializer):
 
 
 class CategorySerializers(serializers.ModelSerializer):
-    child_categories = ChildCategorySerializer(source='category_set', many=True, read_only=True)
-
+    # child_categories = ChildCategorySerializer(source='category_set', many=True, read_only=True)
+    child_categories = serializers.SerializerMethodField(method_name='get_child_categories')
     # products_obj = ChildProductSerializer(source='product_set', many=True, read_only=True)
     photo = serializers.CharField(required=False)
 
@@ -55,6 +56,10 @@ class CategorySerializers(serializers.ModelSerializer):
             instance.photo = File(name=f"photo_{instance.id}.{format}", file=img)
         instance.save()
         return instance
+
+    @classmethod
+    def get_child_categories(cls, obj):
+        return cls(Category.objects.filter(~Q(id=obj.id), parent_id=obj.id), many=True).data
 
     class Meta:
         model = Category
@@ -81,6 +86,7 @@ class ProductMediaSerializers(ModelSerializer):
             instance.media = File(name=f"media_{instance.id}.{format}", file=img)
         instance.save()
         return instance
+
     class Meta:
         model = ProductMedia
         fields = '__all__'
