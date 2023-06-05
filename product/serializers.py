@@ -103,7 +103,7 @@ class ProductCharactorySerializers(ModelSerializer):
 
     class Meta:
         model = ProductCharacter
-        fields = '__all__'
+        fields = ['product', 'value']
 
 
 class ProductPriceSerializers(ModelSerializer):
