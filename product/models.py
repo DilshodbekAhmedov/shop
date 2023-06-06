@@ -79,7 +79,7 @@ class Character(models.Model):
 class ProductMedia(models.Model):
     product = models.ForeignKey('Product', on_delete=models.PROTECT,
                                 verbose_name='Mahsulot', related_name='product_media')
-    media = models.FileField(upload_to='product/product_images', verbose_name='Video/Rasm', null=True, blank=False)
+    media = models.FileField(upload_to='product/product_images', verbose_name='Video/Rasm')
     is_active = models.BooleanField(default=True, verbose_name='Holati Aktiv')
 
     class Meta:

@@ -67,26 +67,6 @@ class CategorySerializers(serializers.ModelSerializer):
 
 
 class ProductMediaSerializers(ModelSerializer):
-    media = serializers.CharField(required=False)
-
-    def create(self, validated_data):
-        media = self.initial_data.get('media', False)
-        if self.initial_data.get('media', False):
-            validated_data.pop('media')
-        instance = super().create(validated_data)
-        if media:
-            format = media.split('/')[1].split(';')[0]
-            if format == "svg+xml":
-                format = "svg"
-            media = media.split(',')[1]
-            # print(media)
-            p = base64.b64decode(media)
-            img = io.BytesIO()
-            img.write(p)
-            instance.media = File(name=f"media_{instance.id}.{format}", file=img)
-        instance.save()
-        return instance
-
     class Meta:
         model = ProductMedia
         fields = '__all__'
