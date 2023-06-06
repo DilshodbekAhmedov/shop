@@ -38,24 +38,24 @@ class CategorySerializers(serializers.ModelSerializer):
     # child_categories = ChildCategorySerializer(source='category_set', many=True, read_only=True)
     child_categories = serializers.SerializerMethodField(method_name='get_child_categories')
     # products_obj = ChildProductSerializer(source='product_set', many=True, read_only=True)
-    photo = serializers.CharField(required=False)
+    # photo = serializers.CharField(required=False)
 
-    def create(self, validated_data):
-        photo = self.initial_data.get('photo', False)
-        if self.initial_data.get('photo', False):
-            validated_data.pop('photo')
-        instance = super().create(validated_data)
-        if photo:
-            format = photo.split('/')[1].split(';')[0]
-            if format == "svg+xml":
-                format = "svg"
-            photo = photo.split(',')[1]
-            p = base64.b64decode(photo)
-            img = io.BytesIO()
-            img.write(p)
-            instance.photo = File(name=f"photo_{instance.id}.{format}", file=img)
-        instance.save()
-        return instance
+    # def create(self, validated_data):
+    #     photo = self.initial_data.get('photo', False)
+    #     if self.initial_data.get('photo', False):
+    #         validated_data.pop('photo')
+    #     instance = super().create(validated_data)
+    #     if photo:
+    #         format = photo.split('/')[1].split(';')[0]
+    #         if format == "svg+xml":
+    #             format = "svg"
+    #         photo = photo.split(',')[1]
+    #         p = base64.b64decode(photo)
+    #         img = io.BytesIO()
+    #         img.write(p)
+    #         instance.photo = File(name=f"photo_{instance.id}.{format}", file=img)
+    #     instance.save()
+    #     return instance
 
     @classmethod
     def get_child_categories(cls, obj):
