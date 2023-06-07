@@ -19,15 +19,15 @@ class Outlay(models.Model):
 class PaymentTransaction(models.Model):
     PAYMENT_MEYHOD = (
         ('cash', "Naqd pul"),
-        ('card', "Cartadan"),
+        ('card', "Kartadan"),
         ('bank', 'Bank'),
     )
     PAYMENT_TYPE = (
-        ('income', "Tavar krimi"),
-        ('order', "Zakaz"),
-        ('client', "Xaridor"),
-        ('provider', "Yetkazib beruvchi"),
-        ('outlay', "Xarajat"),
+        ('income', "Tavar krimi"),  #
+        ('order', "Zakaz"),  #
+        ('client', "Xaridor"),  #
+        ('provider', "Yetkazib beruvchi"),  #
+        ('outlay', "Xarajat"),  #
     )
     TRANSACTION_TYPE = (
         ('income', "Krim"),

@@ -2,12 +2,46 @@ from _decimal import Decimal
 from rest_framework import status
 from provider.models import Provider
 from rest_framework.viewsets import ModelViewSet
+from rest_framework.generics import ListAPIView
 from order.models import Order
 from client.models import Client
 from income.models import Income
+from .helpers import define_payment_transaction_obj
 from .models import OutlayCategory, Outlay, PaymentTransaction
 from .serializers import OutlayCategorySerializer, OutlaySerializer, PaymentTransactionSerializer
 from rest_framework.response import Response
+from django.http import JsonResponse
+
+
+class PaymentTransactionListAPIView(ListAPIView):
+    queryset = PaymentTransaction.objects\
+        .select_related('income', 'order', 'client', 'provider', 'outlay', 'created_user', 'deleted_user')\
+        .all().order_by('-created_at')
+    serializer_class = PaymentTransactionSerializer
+
+    def get(self, request):
+        queryset = self.get_queryset()
+        response = {}
+        for obj in queryset:
+            response[obj.id] = []
+        for obj in queryset:
+            body = {
+                "Yaratilgan sana": str(obj.created_at),
+                "To'lov usuli": obj.get_payment_method_display(),
+                "To'lov turi": obj.get_payment_type_display(),
+                "Tranzaksiya turi": obj.get_transaction_type_display(),
+                "Qiymati": str(obj.amount),
+                "O'chirilganmi": obj.is_deleted,
+            }
+            obj_body = define_payment_transaction_obj(obj.payment_type, obj)
+            body["Batafsil ma'lumot"] = obj_body
+            body['Kim tomondan yaratildi'] = {
+                'Ismi': f"{obj.created_user.first_name} {obj.created_user.last_name}",
+                'Foydalanuvchi turi': f"{obj.created_user.get_user_type_display()}"
+            }
+            response[obj.id].append(body)
+        json_data = response
+        return JsonResponse(json_data, safe=False)
 
 
 class OutlayCategoryViewSet(ModelViewSet):

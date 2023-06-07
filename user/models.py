@@ -77,7 +77,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_active = models.BooleanField(verbose_name='Faol', default=True, )
     birthday = models.DateField(verbose_name="Tug'ilgan kun",
                                 null=True, blank=True)
-    user_type = models.CharField(verbose_name='Foydalanuvchi turi', max_length=255, choices=USER_TYPE, default='client')
+    user_type = models.CharField(verbose_name='Foydalanuvchi turi', max_length=255, choices=USER_TYPE, default='admin')
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
