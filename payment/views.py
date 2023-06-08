@@ -1,4 +1,6 @@
 from _decimal import Decimal
+
+from django.db.models import Sum
 from rest_framework import status
 from provider.models import Provider
 from rest_framework.viewsets import ModelViewSet
@@ -21,6 +23,9 @@ class PaymentTransactionListAPIView(ListAPIView):
 
     def get(self, request):
         queryset = self.get_queryset()
+        outcome_total = queryset.filter(transaction_type="outcome").aggregate(total_sum=Sum('amount'))
+        income_total = queryset.filter(transaction_type="income").aggregate(total_sum=Sum('amount'))
+        profit = income_total['total_sum'] - outcome_total['total_sum']
         response = {}
         for obj in queryset:
             response[obj.id] = []
@@ -40,8 +45,11 @@ class PaymentTransactionListAPIView(ListAPIView):
                 'Foydalanuvchi turi': f"{obj.created_user.get_user_type_display()}"
             }
             response[obj.id].append(body)
-        json_data = response
-        return JsonResponse(json_data, safe=False)
+
+        response["Ja'mi kirimlar"] = str(income_total['total_sum'])
+        response["Ja'mi chiqimlar"] = str(outcome_total['total_sum'])
+        response["Foida"] = str(profit)
+        return JsonResponse(response, safe=False)
 
 
 class OutlayCategoryViewSet(ModelViewSet):

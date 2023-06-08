@@ -57,6 +57,7 @@ class Product(models.Model):
                                                 verbose_name='Ko\'rganlar soni', null=True, blank=True)
     is_active = models.BooleanField(default=True,
                                     verbose_name='Holati Aktiv')
+    # add description
 
     class Meta:
         verbose_name = 'Mahsulot'
